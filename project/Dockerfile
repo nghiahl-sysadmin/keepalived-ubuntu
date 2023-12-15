@@ -16,18 +16,20 @@ RUN apt-get -y update && apt-get -y install \
     pkg-config \
     build-essential \
     && curl -o /opt/keepalived.tar.gz -SL https://www.keepalived.org/software/keepalived-${keepalived_version}.tar.gz \
-    && mkdir -p /opt/source/keepalived \
-    && tar -xzf /opt/keepalived.tar.gz -C /opt/source/keepalived --strip-components=1 \
-    && cd /opt/source/keepalived \
+    && mkdir -p /opt/keepalived \
+    && tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1 \
+    && cd /opt/keepalived \
     && ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
     && make && make install \
     && cd - && mkdir -p /etc/keepalived \
     && rm -rf /opt/keepalived.tar.gz \
-    && rm -rf /opt/source/keepalived \
-    && rm -rf /var/lib/apt/lists/* \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && rm -rf /opt/keepalived \
     && useradd --no-create-home keepalived_script
-
+    
+RUN apt-get purge -y tar curl libssl-dev libnl-3-dev libnl-genl-3-dev libnfnetlink-dev libmnl-dev pkg-config  build-essential \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && rm -rf /var/lib/apt/lists/*
+    
 WORKDIR /etc/keepalived
 
 # Copy sources
