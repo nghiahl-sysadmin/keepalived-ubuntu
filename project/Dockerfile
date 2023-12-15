@@ -8,15 +8,21 @@ COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 # Install necessary tools
 RUN apk update && \
-    apk add --no-cache \
-    tar \
+    autoconf \
     curl \
-    openssl-dev \
-    libnl3-dev \
+    gcc \
+    ipset \
+    ipset-dev \
+    iptables \
+    iptables-dev \
+    libnfnetlink \
     libnfnetlink-dev \
-    libmnl-dev \
-    pkgconf \
-    build-base \
+    libnl3 \
+    libnl3-dev \
+    make \
+    musl-dev \
+    openssl \
+    openssl-dev \
     && curl -o /opt/keepalived.tar.gz -SL https://www.keepalived.org/software/keepalived-${keepalived_version}.tar.gz \
     && mkdir -p /opt/keepalived \
     && tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1 \
@@ -29,13 +35,14 @@ RUN apk update && \
     && rm -rf /var/cache/apk/* \
     && adduser -S keepalived_script \
     && apk --no-cache del \
-    tar \
-    curl \
-    libnl3-dev \
+    autoconf \
+    gcc \
+    ipset-dev \
+    iptables-dev \
     libnfnetlink-dev \
-    libmnl-dev \
-    pkgconf \
-    build-base \
+    libnl3-dev \
+    make \
+    musl-dev \
     openssl-dev
 
 WORKDIR /etc/keepalived
