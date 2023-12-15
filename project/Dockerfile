@@ -25,7 +25,7 @@ RUN apk update && \
     && rm -rf /opt/keepalived \
     && rm -rf /var/cache/apk/* \
     && adduser -S keepalived_script
-	
+
 WORKDIR /etc/keepalived
 
 # Copy sources
