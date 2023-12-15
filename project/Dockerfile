@@ -2,7 +2,6 @@ FROM alpine:latest
 
 # Variables
 ARG keepalived_version=2.2.8
-
 # Install necessary tools
 RUN apk update && \
     apk add --no-cache \
@@ -25,11 +24,13 @@ RUN apk update && \
     && rm -rf /opt/keepalived \
     && rm -rf /var/cache/apk/* \
     && adduser -S keepalived_script \
-    && apk del --no-cache \
-    openssl-dev \
+    && apk --no-cache del \
+    tar \
+    curl \
     libnl3-dev \
     libnfnetlink-dev \
     libmnl-dev \
+    openssl-dev
 	
 WORKDIR /etc/keepalived
 
