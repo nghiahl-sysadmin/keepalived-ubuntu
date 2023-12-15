@@ -1,19 +1,20 @@
-FROM alpine:latest
+# https://hub.docker.com/r/nghiahl/keepalived
+FROM ubuntu:latest
 
 # Variables
 ARG keepalived_version=2.2.8
 
-# Install necessary tools
-RUN apk update && \
-    apk add --no-cache \
+# Install extensions
+RUN apt-get -y update && apt-get -y install \
     tar \
     curl \
-    openssl-dev \
-    libnl3-dev \
+    libssl-dev \
+    libnl-3-dev \
+    libnl-genl-3-dev \
     libnfnetlink-dev \
     libmnl-dev \
-    pkgconf \
-    build-base \
+    pkg-config \
+    build-essential \
     && curl -o /opt/keepalived.tar.gz -SL https://www.keepalived.org/software/keepalived-${keepalived_version}.tar.gz \
     && mkdir -p /opt/keepalived \
     && tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1 \
@@ -23,16 +24,17 @@ RUN apk update && \
     && cd - && mkdir -p /etc/keepalived \
     && rm -rf /opt/keepalived.tar.gz \
     && rm -rf /opt/keepalived \
-    && rm -rf /var/cache/apk/* \
-    && adduser -S keepalived_script
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && useradd --no-create-home keepalived_script
 
 WORKDIR /etc/keepalived
 
 # Copy sources
-COPY docker-entrypoint.sh /
+COPY docker-entrypoint.sh /usr/local/bin/
 
 # Add permissions
-RUN chmod +x /docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Final touches
-ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
