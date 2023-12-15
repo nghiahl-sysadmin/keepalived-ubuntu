@@ -1,6 +1,6 @@
 # How to use this image
 - Since no two users of Keepalived are likely to configure it exactly alike, this image does not come with any default configuration.
-- Please refer to "https://keepalived.org/doc/" documentation on the subject of configuring Keepalived for your needs.
+- Please refer to https://keepalived.org/doc/ documentation on the subject of configuring Keepalived for your needs.
 - Docker repository https://hub.docker.com/r/nghiahl/keepalived
 ## Create a ```Dockerfile```
 ```
