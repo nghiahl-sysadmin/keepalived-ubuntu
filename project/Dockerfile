@@ -1,20 +1,19 @@
-# https://hub.docker.com/r/nghiahl/keepalived
-FROM ubuntu:latest
+FROM alpine:latest
 
 # Variables
 ARG keepalived_version=2.2.8
 
-# Install extensions
-RUN apt-get -y update && apt-get -y install \
+# Install necessary tools
+RUN apk update && \
+    apk add --no-cache \
     tar \
     curl \
-    libssl-dev \
-    libnl-3-dev \
-    libnl-genl-3-dev \
+    openssl-dev \
+    libnl3-dev \
     libnfnetlink-dev \
     libmnl-dev \
-    pkg-config \
-    build-essential \
+    pkgconf \
+    build-base \
     && curl -o /opt/keepalived.tar.gz -SL https://www.keepalived.org/software/keepalived-${keepalived_version}.tar.gz \
     && mkdir -p /opt/keepalived \
     && tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1 \
@@ -24,9 +23,8 @@ RUN apt-get -y update && apt-get -y install \
     && cd - && mkdir -p /etc/keepalived \
     && rm -rf /opt/keepalived.tar.gz \
     && rm -rf /opt/keepalived \
-    && rm -rf /var/lib/apt/lists/* \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-    && useradd --no-create-home keepalived_script
+    && rm -rf /var/cache/apk/* \
+    && adduser -S keepalived_script
 
 WORKDIR /etc/keepalived
 
