@@ -29,10 +29,10 @@ RUN apk update && \
 WORKDIR /etc/keepalived
 
 # Copy sources
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY docker-entrypoint.sh /usr/bin
 
 # Add permissions
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/bin/docker-entrypoint.sh
 
 # Final touches
 ENTRYPOINT ["docker-entrypoint.sh"]
