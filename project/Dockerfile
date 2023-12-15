@@ -20,6 +20,7 @@ RUN apk --no-cache add \
     musl-dev \
     openssl \
     openssl-dev \
+    bash \
     && curl -o /opt/keepalived.tar.gz -SL https://www.keepalived.org/software/keepalived-${keepalived_version}.tar.gz \
     && mkdir -p /opt/keepalived \
     && tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1 \
