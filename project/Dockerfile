@@ -24,16 +24,16 @@ RUN apt-get -y update && apt-get -y install \
     && cd - && mkdir -p /etc/keepalived \
     && rm -rf /opt/keepalived.tar.gz \
     && rm -rf /opt/keepalived \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && useradd --no-create-home keepalived_script
-    
-RUN apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-    && rm -rf /var/lib/apt/lists/*
-    
+
 WORKDIR /etc/keepalived
 
 # Copy sources
 COPY docker-entrypoint.sh /usr/local/bin/
 
+# Add permissions
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Final touches
