@@ -24,7 +24,16 @@ RUN apk update && \
     && rm -rf /opt/keepalived.tar.gz \
     && rm -rf /opt/keepalived \
     && rm -rf /var/cache/apk/* \
-    && adduser -S keepalived_script
+    && adduser -S keepalived_script \
+    && apk --no-cache del \
+    tar \
+    curl \
+    libnl3-dev \
+    libnfnetlink-dev \
+    libmnl-dev \
+    pkgconf \
+    build-base \
+    openssl-dev
 
 WORKDIR /etc/keepalived
 
