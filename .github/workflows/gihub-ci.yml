@@ -30,4 +30,3 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: nghiahl/keepalived:latest
-          
