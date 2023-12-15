@@ -4,23 +4,16 @@ FROM alpine:latest
 ARG keepalived_version=2.2.8
 
 # Install necessary tools
-RUN apk --no-cache add \
-    autoconf \
+RUN apk update && \
+    apk add --no-cache \
+    tar \
     curl \
-    gcc \
-    ipset \
-    ipset-dev \
-    iptables \
-    iptables-dev \
-    libnfnetlink \
-    libnfnetlink-dev \
-    libnl3 \
-    libnl3-dev \
-    make \
-    musl-dev \
-    openssl \
     openssl-dev \
-    bash \
+    libnl3-dev \
+    libnfnetlink-dev \
+    libmnl-dev \
+    pkgconf \
+    build-base \
     && curl -o /opt/keepalived.tar.gz -SL https://www.keepalived.org/software/keepalived-${keepalived_version}.tar.gz \
     && mkdir -p /opt/keepalived \
     && tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1 \
@@ -31,18 +24,13 @@ RUN apk --no-cache add \
     && rm -rf /opt/keepalived.tar.gz \
     && rm -rf /opt/keepalived \
     && rm -rf /var/cache/apk/* \
-    && adduser -S keepalived_script \
-    && apk --no-cache del \
-    autoconf \
-    gcc \
-    ipset-dev \
-    iptables-dev \
-    libnfnetlink-dev \
-    libnl3-dev \
-    make \
-    musl-dev \
-    openssl-dev
-
+    && adduser -S keepalived_script
+	&& apk del --no-cache \
+	openssl-dev \
+	libnl3-dev \
+	libnfnetlink-dev \
+	libmnl-dev \
+	
 WORKDIR /etc/keepalived
 
 # Copy sources
@@ -52,4 +40,4 @@ COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
 # Final touches
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["sh", "docker-entrypoint.sh"]
