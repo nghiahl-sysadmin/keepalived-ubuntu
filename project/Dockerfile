@@ -7,7 +7,7 @@ COPY docker-entrypoint.sh /
 
 RUN chmod +x /docker-entrypoint.sh
 # Install necessary tools
-RUN apk update && \
+RUN apk --no-cache add \
     autoconf \
     curl \
     gcc \
