@@ -3,9 +3,6 @@ FROM alpine:latest
 # Variables
 ARG keepalived_version=2.2.8
 
-COPY docker-entrypoint.sh /
-
-RUN chmod +x /docker-entrypoint.sh
 # Install necessary tools
 RUN apk --no-cache add \
     autoconf \
@@ -48,10 +45,10 @@ RUN apk --no-cache add \
 WORKDIR /etc/keepalived
 
 # Copy sources
-# COPY docker-entrypoint.sh /
+COPY docker-entrypoint.sh /
 
 # Add permissions
-# RUN chmod +x /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
 # Final touches
-ENTRYPOINT ["sh", "docker-entrypoint.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
