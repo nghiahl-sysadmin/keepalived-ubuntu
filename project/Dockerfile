@@ -2,16 +2,16 @@ FROM alpine:latest
 
 # Variables
 ARG keepalived_version=2.2.8
+
 # Install necessary tools
 RUN apk update && \
     apk add --no-cache \
+    tar \
     curl \
-    openssl \
     openssl-dev \
-    libnl3 \
     libnl3-dev \
-    libnfnetlink \
     libnfnetlink-dev \
+    libmnl-dev \
     pkgconf \
     build-base \
     && curl -o /opt/keepalived.tar.gz -SL https://www.keepalived.org/software/keepalived-${keepalived_version}.tar.gz \
