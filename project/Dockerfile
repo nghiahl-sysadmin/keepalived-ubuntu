@@ -4,22 +4,16 @@ FROM alpine:latest
 ARG keepalived_version=2.2.8
 # Install necessary tools
 RUN apk update && \
-    apk --no-cache add \
-    autoconf \
+    apk add --no-cache \
     curl \
-    gcc \
-    ipset \
-    ipset-dev \
-    iptables \
-    iptables-dev \
-    libnfnetlink \
-    libnfnetlink-dev \
-    libnl3 \
-    libnl3-dev \
-    make \
-    musl-dev \
     openssl \
     openssl-dev \
+    libnl3 \
+    libnl3-dev \
+    libnfnetlink \
+    libnfnetlink-dev \
+    pkgconf \
+    build-base \
     && curl -o /opt/keepalived.tar.gz -SL https://www.keepalived.org/software/keepalived-${keepalived_version}.tar.gz \
     && mkdir -p /opt/keepalived \
     && tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1 \
@@ -32,15 +26,9 @@ RUN apk update && \
     && rm -rf /var/cache/apk/* \
     && adduser -S keepalived_script \
     && apk --no-cache del \
-    autoconf \
-    gcc \
-    ipset-dev \
-    iptables-dev \
-    libnfnetlink-dev \
+    openssl-dev \
     libnl3-dev \
-    make \
-    musl-dev \
-    openssl-dev
+    libnfnetlink-dev
 	
 WORKDIR /etc/keepalived
 
