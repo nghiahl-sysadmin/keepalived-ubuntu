@@ -11,10 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE: 'actions-scan/trivy:${{ github.sha }}'
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
     steps:
       - name: Checkout
         id: step_one
