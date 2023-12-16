@@ -5,24 +5,57 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      IMAGE: 'actions-scan/trivy:${{ github.sha }}'
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
     steps:
       - name: Checkout
         id: step_one
         uses: actions/checkout@v4
-      - name: Set up QEMU
+        
+      - name: Build an image from Dockerfile
         id: step_two
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Build
+        run: |
+          docker build -t ${{ env.IMAGE }} ./project/.
+          
+      - name: Run Trivy vulnerability scanner
         id: step_three
-        uses: docker/setup-buildx-action@v3
-      - name: Login to DockerHub
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.IMAGE }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          
+      - name: Upload Trivy scan results to GitHub Security
         id: step_four
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+          
+      - name: Set up QEMU
+        id: step_fix
+        uses: docker/setup-qemu-action@v3
+        
+      - name: Set up Docker Build
+        id: step_six
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Login to DockerHub
+        id: step_seven
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
       - name: Build and push Docker images
-        id: step_five
+        id: step_eight
         uses: docker/build-push-action@v5
         with:
           context: ./project/.
