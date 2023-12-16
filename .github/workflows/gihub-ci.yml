@@ -55,4 +55,4 @@ jobs:
           file: ./project/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: nghiahl/keepalived:latest
+          tags: nghiahl/keepalived:v2.2.8
