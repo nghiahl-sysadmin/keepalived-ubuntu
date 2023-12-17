@@ -55,7 +55,7 @@ RUN set -eux; \
 		| sort -u \
 		| xargs -r apt-mark manual \
 	; \
- 	apt-mark auto libnl-3-200 \
+ 	apt-mark manual libnl-3-200 \
  		 libnl-genl-3-200 \
     	; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
