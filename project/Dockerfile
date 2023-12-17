@@ -1,10 +1,3 @@
-# https://hub.docker.com/r/nghiahl/keepalived
-FROM ubuntu:focal
-
-# Variables
-ARG KEEPALIVED_URL=https://keepalived.org/software/keepalived-2.2.8.tar.gz
-ARG KEEPALIVED_MD5=8c26f75a8767e5341d82696e1e717115
-
 RUN useradd --no-create-home keepalived_script
 # Install extensions
 RUN set -eux; \
@@ -14,14 +7,14 @@ RUN set -eux; \
 	ca-certificates \
 	tar \
 	make \
-	curl \
-	ibssl-dev \
-	ibnl-3-dev \
-	ibnl-genl-3-dev \
-	ibnfnetlink-dev \
-	ibmnl-dev \
-	kg-config \
-	uild-essential \
+	url \
+	libssl-dev \
+	libnl-3-dev \
+	libnl-genl-3-dev \
+	libnfnetlink-dev \
+	libmnl-dev \
+	pkg-config \
+	build-essential \
 	; \
 	curl -o /opt/keepalived.tar.gz -SL "$KEEPALIVED_URL"; \
 	echo "$KEEPALIVED_MD5 /opt/keepalived.tar.gz" | md5sum -c; \
@@ -38,8 +31,7 @@ RUN set -eux; \
 	apt-mark auto '.*' > /dev/null; \
 	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark; \
 	find /usr/local -type f -executable -exec ldd '{}' ';' \
-		| awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); print so }' \
-		| sort -u \
+	@@ -43,13 +43,13 @@ RUN set -eux; \
 		| xargs -r dpkg-query --search \
 		| cut -d: -f1 \
 		| sort -u \
@@ -51,7 +43,7 @@ RUN set -eux; \
 	curl \
 	; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
- 
+
 WORKDIR /etc/keepalived
 
 # Copy sources
