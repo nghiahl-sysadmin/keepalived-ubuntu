@@ -20,6 +20,7 @@ RUN set -eux; \
         \
         savedAptMark="$(apt-mark showmanual)"; \
         apt-get -y update && apt-get -y install --no-install-recommends \
+		   ca-certificates \
                    tar \
                    curl \
                    libssl-dev \
