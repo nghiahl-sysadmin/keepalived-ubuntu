@@ -58,7 +58,8 @@ RUN set -eux; \
 		| grep -v -e 'libnl-3-200:amd64' -e 'libnl-genl-3-200:amd64' \
 		| xargs -r apt-mark manual \
 	; \
-	apt-mark hold libnl-3-200 \
+	apt-mark hold \
+ 	libnl-3-200 \
 	libnl-genl-3-200 \
 	curl \
 	; \
