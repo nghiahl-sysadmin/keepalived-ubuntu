@@ -44,8 +44,6 @@ RUN set -eux; \
     	cd - && mkdir -p /etc/keepalived; \
     	rm -rf /opt/keepalived.tar.gz; \
     	rm -rf /opt/keepalived; \
-     	rm -rf /var/lib/apt/lists/*; \
-	\
 	apt-mark auto '.*' > /dev/null; \
 	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark; \
 	find /usr/local -type f -executable -exec ldd '{}' ';' \
@@ -58,8 +56,9 @@ RUN set -eux; \
 	; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
  	apt-get -y íntall --no-install-recommends \
-  	ca-certificates \
-  	libnl-3-200
+  	libnl-3-200 \
+   	; \
+   	rm -rf /var/lib/apt/lists/*
 
 WORKDIR /etc/keepalived
 
