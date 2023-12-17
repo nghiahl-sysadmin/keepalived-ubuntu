@@ -2,7 +2,8 @@
 FROM ubuntu:latest
 
 # Variables
-ARG keepalived_version=2.2.8
+ARG KEEPALIVED_URL=https://keepalived.org/software/keepalived-2.2.8.tar.gz
+ARG KEEPALIVED_MD5=8c26f75a8767e5341d82696e1e717115
 
 RUN set -eux; \
 	groupadd --gid 99 --system keepalived; \
@@ -22,7 +23,6 @@ RUN set -eux; \
         apt-get -y update && apt-get -y install --no-install-recommends \
 		   ca-certificates \
                    tar \
-                   curl \
 		   make \
      		   wget \
                    libssl-dev \
@@ -33,7 +33,8 @@ RUN set -eux; \
                    pkg-config \
                    build-essential \
         ; \
-    	curl -o /opt/keepalived.tar.gz -SL https://www.keepalived.org/software/keepalived-${keepalived_version}.tar.gz; \
+    	wget -O /opt/keepalived.tar.gz -SL "$KEEPALIVED_URL"; \
+        echo "$KEEPALIVED_MD5 /opt/*keepalived.tar.gz" | md5sum -c; \
     	mkdir -p /opt/keepalived; \
     	tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1; \
     	cd /opt/keepalived; \
