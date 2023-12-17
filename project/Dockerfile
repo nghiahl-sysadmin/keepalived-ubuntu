@@ -48,6 +48,7 @@ RUN set -eux; \
 	; \
  	apt-mark hold libnl-3-200 \
  	libnl-genl-3-200 \
+  	curl \
     	; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
  
