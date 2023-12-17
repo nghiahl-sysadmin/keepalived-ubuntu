@@ -29,7 +29,6 @@ RUN set -eux; \
                    libnl-3-dev \
                    libnl-genl-3-dev \
                    libnfnetlink-dev \
-		   libnl-3-200 \
                    libmnl-dev \
                    pkg-config \
                    build-essential \
@@ -57,7 +56,10 @@ RUN set -eux; \
 		| sort -u \
 		| xargs -r apt-mark manual \
 	; \
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+ 	apt-get -y íntall --no-install-recommends \
+  	ca-certificates \
+  	libnl-3-200
 
 WORKDIR /etc/keepalived
 
