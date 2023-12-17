@@ -3,7 +3,6 @@ FROM ubuntu:focal
 
 # Variables
 ARG KEEPALIVED_URL=https://keepalived.org/software/keepalived-2.2.8.tar.gz
-
 ARG KEEPALIVED_MD5=8c26f75a8767e5341d82696e1e717115
 
 RUN useradd --system --no-create-home keepalived_script
