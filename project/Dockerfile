@@ -12,7 +12,8 @@ RUN useradd --system --no-create-home keepalived_script
 RUN set -eux; \
 	\
 	savedAptMark="$(apt-mark showmanual)"; \
-	apt-get -y update && apt-get -y install --no-install-recommends \
+	apt-get -y update; \
+ 	DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
 	ca-certificates \
 	tar \
 	make \
