@@ -34,6 +34,7 @@ RUN set -eux; \
         ; \
 	apt-get -y install --no-install-recommends \
  	libnl-3-200 \
+  	; \
     	curl -o /opt/keepalived.tar.gz -SL "$KEEPALIVED_URL"; \
         echo "$KEEPALIVED_MD5 /opt/keepalived.tar.gz" | md5sum -c; \
     	mkdir -p /opt/keepalived; \
