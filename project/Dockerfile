@@ -17,7 +17,7 @@ RUN set -eux; \
 	chown keepalived:keepalived /etc/keepalived
  
 # Install extensions
-RUN set -x; \
+RUN set -eux; \
         \
         savedAptMark="$(apt-mark showmanual)"; \
         apt-get -y update && apt-get -y install --no-install-recommends \
@@ -55,7 +55,7 @@ RUN set -x; \
 		| xargs -r apt-mark manual \
 	; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
- 	apt-get -y íntall --no-install-recommends \
+ 	apt-get -y install --no-install-recommends \
   	libnl-3-200 \
    	; \
    	rm -rf /var/lib/apt/lists/*
