@@ -34,7 +34,7 @@ RUN set -eux; \
                    build-essential \
         ; \
     	wget -O /opt/keepalived.tar.gz -SL "$KEEPALIVED_URL"; \
-        echo "$KEEPALIVED_MD5 /opt/*keepalived.tar.gz" | md5sum -c; \
+        echo "$KEEPALIVED_MD5 /opt/keepalived.tar.gz" | md5sum -c; \
     	mkdir -p /opt/keepalived; \
     	tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1; \
     	cd /opt/keepalived; \
