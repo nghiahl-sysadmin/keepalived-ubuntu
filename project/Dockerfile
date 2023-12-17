@@ -5,8 +5,8 @@ FROM ubuntu:latest
 ARG keepalived_version=2.2.8
 
 # Install extensions
-RUN set -eux; \
-        \
+RUN #set -eux; \
+    #    \
         savedAptMark="$(apt-mark showmanual)"; \
         apt-get -y update && apt-get -y install --no-install-recommends \
                    tar \
