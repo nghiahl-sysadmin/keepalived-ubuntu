@@ -17,6 +17,7 @@ RUN set -eux; \
 	; \
 	mkdir /etc/keepalived; \
 	chown keepalived:keepalived /etc/keepalived
+ 	
  
 # Install extensions
 RUN set -eux; \
@@ -46,6 +47,8 @@ RUN set -eux; \
 	rm -rf /opt/keepalived.tar.gz; \
 	rm -rf /opt/keepalived; \
 	rm -rf /var/lib/apt/lists/* \
+ 	touch /run/keepalived.pid \
+ 	chown keepalived:keepalived /run/keepalived.pid \
 	; \
 	apt-mark auto '.*' > /dev/null; \
 	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark; \
