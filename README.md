@@ -5,7 +5,7 @@
 ## Create a ```Dockerfile```
 ```
 FROM nghiahl/keepalived:ubuntu-v2.2.8
-COPY path/to/config /etc/keepalived/keepalived.conf
+COPY path/to/keepalived.conf /etc/keepalived/keepalived.conf
 ```
 ## Build the container
 ```
