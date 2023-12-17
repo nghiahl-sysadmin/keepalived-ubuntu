@@ -16,7 +16,7 @@ RUN set -eux; \
 	chown keepalived:keepalived /etc/keepalived
  
 # Install extensions
-RUN set -x; \
+RUN set -eux; \
         \
         savedAptMark="$(apt-mark showmanual)"; \
         apt-get -y update && apt-get -y install --no-install-recommends \
@@ -30,7 +30,6 @@ RUN set -x; \
                    pkg-config \
                    build-essential \
         ; \
-    	rm -rf /var/lib/apt/lists/*; \
     	curl -o /opt/keepalived.tar.gz -SL https://www.keepalived.org/software/keepalived-${keepalived_version}.tar.gz; \
     	mkdir -p /opt/keepalived; \
     	tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1; \
@@ -40,6 +39,7 @@ RUN set -x; \
     	cd - && mkdir -p /etc/keepalived; \
     	rm -rf /opt/keepalived.tar.gz; \
     	rm -rf /opt/keepalived; \
+     	rm -rf /var/lib/apt/lists/*; \
 	\
 	apt-mark auto '.*' > /dev/null; \
 	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark; \
