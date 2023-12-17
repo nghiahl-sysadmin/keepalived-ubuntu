@@ -33,7 +33,9 @@ RUN set -eux; \
                    pkg-config \
                    build-essential \
         ; \
-	ln -s /lib/x86_64-linux-gnu/libnl-3.so.200 /usr/lib/libnl-3.so.200; \
+	apt-mark manual libnl-3-200 \
+ 		 libnl-genl-3-200 \
+    	; \
     	curl -o /opt/keepalived.tar.gz -SL "$KEEPALIVED_URL"; \
         echo "$KEEPALIVED_MD5 /opt/keepalived.tar.gz" | md5sum -c; \
     	mkdir -p /opt/keepalived; \
@@ -44,6 +46,8 @@ RUN set -eux; \
     	cd - && mkdir -p /etc/keepalived; \
     	rm -rf /opt/keepalived.tar.gz; \
     	rm -rf /opt/keepalived; \
+     	rm -rf /var/lib/apt/lists/* \
+      	; \
 	apt-mark auto '.*' > /dev/null; \
 	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark; \
 	find /usr/local -type f -executable -exec ldd '{}' ';' \
@@ -54,12 +58,8 @@ RUN set -eux; \
 		| sort -u \
 		| xargs -r apt-mark manual \
 	; \
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
- 	apt-get -y install --no-install-recommends \
-  	libnl-3-200 \
-   	; \
-   	rm -rf /var/lib/apt/lists/*
-
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
+ 
 WORKDIR /etc/keepalived
 
 # Copy sources
