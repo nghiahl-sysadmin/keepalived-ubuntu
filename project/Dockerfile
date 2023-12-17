@@ -33,10 +33,6 @@ RUN set -eux; \
                    pkg-config \
                    build-essential \
         ; \
-	apt-get -y install --no-install-recommends \
- 	libnl-3-200 \
-  	; \
-   	ln -s /lib/x86_64-linux-gnu/libnl-3.so.200 /usr/lib/libnl-3.so.200; \
     	curl -o /opt/keepalived.tar.gz -SL "$KEEPALIVED_URL"; \
         echo "$KEEPALIVED_MD5 /opt/keepalived.tar.gz" | md5sum -c; \
     	mkdir -p /opt/keepalived; \
@@ -59,7 +55,11 @@ RUN set -eux; \
 		| sort -u \
 		| xargs -r apt-mark manual \
 	; \
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+ 	apt-get -y install --no-install-recommends \
+ 	libnl-3-200
+  	#; \
+   	#ln -s /lib/x86_64-linux-gnu/libnl-3.so.200 /usr/lib/libnl-3.so.200; \
 
 WORKDIR /etc/keepalived
 
