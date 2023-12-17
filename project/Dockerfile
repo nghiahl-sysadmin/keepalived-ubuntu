@@ -24,7 +24,6 @@ RUN set -eux; \
 		   ca-certificates \
                    tar \
 		   make \
-     		   wget \
                    libssl-dev \
                    libnl-3-dev \
                    libnl-genl-3-dev \
@@ -33,7 +32,9 @@ RUN set -eux; \
                    pkg-config \
                    build-essential \
         ; \
-    	wget -O /opt/keepalived.tar.gz -SL "$KEEPALIVED_URL"; \
+	apt-get -y install --no-install-recommends \
+ 	libnl-3-200 \
+    	curl -o /opt/keepalived.tar.gz -SL "$KEEPALIVED_URL"; \
         echo "$KEEPALIVED_MD5 /opt/keepalived.tar.gz" | md5sum -c; \
     	mkdir -p /opt/keepalived; \
     	tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1; \
