@@ -29,6 +29,7 @@ RUN set -eux; \
                    libnl-3-dev \
                    libnl-genl-3-dev \
                    libnfnetlink-dev \
+		   libnl-3-200 \
                    libmnl-dev \
                    pkg-config \
                    build-essential \
@@ -55,11 +56,7 @@ RUN set -eux; \
 		| sort -u \
 		| xargs -r apt-mark manual \
 	; \
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
- 	apt-get -y install --no-install-recommends \
- 	libnl-3-200
-  	#; \
-   	#ln -s /lib/x86_64-linux-gnu/libnl-3.so.200 /usr/lib/libnl-3.so.200; \
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 
 WORKDIR /etc/keepalived
 
