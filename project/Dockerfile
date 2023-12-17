@@ -7,17 +7,6 @@ ARG KEEPALIVED_URL=https://keepalived.org/software/keepalived-2.2.8.tar.gz
 ARG KEEPALIVED_MD5=8c26f75a8767e5341d82696e1e717115
 
 #RUN useradd --no-create-home keepalived_script
-RUN set -eux; \
-	groupadd --gid 99 --system keepalived; \
-	useradd \
-		--gid keepalived \
-		--system \
-		--uid 99 \
-		keepalived \
-	; \
-	mkdir /etc/keepalived; \
-	chown keepalived:keepalived /etc/keepalived
- 	
  
 # Install extensions
 RUN set -eux; \
@@ -47,8 +36,6 @@ RUN set -eux; \
 	rm -rf /opt/keepalived.tar.gz; \
 	rm -rf /opt/keepalived; \
 	rm -rf /var/lib/apt/lists/* \
- 	touch /run/keepalived.pid \
- 	chown keepalived:keepalived /run/keepalived.pid \
 	; \
 	apt-mark auto '.*' > /dev/null; \
 	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark; \
@@ -75,8 +62,6 @@ COPY docker-entrypoint.sh /usr/local/bin/
 
 # Add permissions
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-USER keepalived
 
 # Final touches
 ENTRYPOINT ["docker-entrypoint.sh"]
