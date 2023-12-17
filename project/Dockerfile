@@ -24,6 +24,7 @@ RUN set -eux; \
 		   ca-certificates \
                    tar \
 		   make \
+     		   curl \
                    libssl-dev \
                    libnl-3-dev \
                    libnl-genl-3-dev \
