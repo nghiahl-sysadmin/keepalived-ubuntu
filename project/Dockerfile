@@ -10,10 +10,10 @@ ARG KEEPALIVED_MD5=8c26f75a8767e5341d82696e1e717115
 RUN set -eux; \
 	groupadd --gid 99 --system keepalived; \
 	useradd \
-		--gid keepalived_script \
+		--gid keepalived \
 		--system \
 		--uid 99 \
-		keepalived_script \
+		keepalived \
 	; \
 	mkdir /etc/keepalived; \
 	chown keepalived:keepalived /etc/keepalived
