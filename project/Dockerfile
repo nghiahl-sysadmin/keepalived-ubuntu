@@ -8,7 +8,7 @@ ARG KEEPALIVED_MD5=8c26f75a8767e5341d82696e1e717115
 RUN useradd --no-create-home keepalived_script
 
 # Install extensions
-RUN set -eux; \
+RUN set -x; \
 	\
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get -y update && apt-get -y install --no-install-recommends \
