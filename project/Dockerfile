@@ -17,7 +17,7 @@ RUN set -eux; \
 	chown keepalived:keepalived /etc/keepalived
  
 # Install extensions
-RUN set -eux; \
+RUN set -x; \
         \
         savedAptMark="$(apt-mark showmanual)"; \
         apt-get -y update && apt-get -y install --no-install-recommends \
