@@ -1,5 +1,5 @@
 # https://hub.docker.com/r/nghiahl/keepalived
-FROM ubuntu:focal-20231211
+FROM ubuntu:jammy
 
 # Variables
 ARG KEEPALIVED_URL=https://keepalived.org/software/keepalived-2.2.8.tar.gz
