@@ -33,9 +33,6 @@ RUN set -eux; \
                    pkg-config \
                    build-essential \
         ; \
-	apt-mark manual libnl-3-200 \
- 		 libnl-genl-3-200 \
-    	; \
     	curl -o /opt/keepalived.tar.gz -SL "$KEEPALIVED_URL"; \
         echo "$KEEPALIVED_MD5 /opt/keepalived.tar.gz" | md5sum -c; \
     	mkdir -p /opt/keepalived; \
@@ -58,6 +55,9 @@ RUN set -eux; \
 		| sort -u \
 		| xargs -r apt-mark manual \
 	; \
+ 	apt-mark auto libnl-3-200 \
+ 		 libnl-genl-3-200 \
+    	; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
  
 WORKDIR /etc/keepalived
