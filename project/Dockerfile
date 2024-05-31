@@ -2,8 +2,8 @@
 FROM ubuntu:focal
 
 # Variables
-ARG KEEPALIVED_URL=https://keepalived.org/software/keepalived-2.2.8.tar.gz
-ARG KEEPALIVED_MD5=8c26f75a8767e5341d82696e1e717115
+ARG KEEPALIVED_URL=https://www.keepalived.org/software/keepalived-2.3.1.tar.gz
+ARG KEEPALIVED_MD5=5434ebc3becb6f86ebc3adc04e3e7e6d
 
 RUN useradd --system --no-create-home keepalived_script
  
@@ -24,17 +24,27 @@ RUN set -eux; \
 	libmnl-dev \
 	pkg-config \
 	build-essential \
+        libxtables-dev \
+        libip4tc-dev \
+        libip6tc-dev \
+        libipset-dev \
+        libmagic-dev \
+        libsnmp-dev \
+        libglib2.0-dev \
+        libpcre2-dev \
+        libkmod-dev \
 	; \
-	curl -o /opt/keepalived.tar.gz -SL "$KEEPALIVED_URL"; \
-	echo "$KEEPALIVED_MD5 /opt/keepalived.tar.gz" | md5sum -c; \
-	mkdir -p /opt/keepalived; \
-	tar -xzf /opt/keepalived.tar.gz -C /opt/keepalived --strip-components=1; \
-	cd /opt/keepalived; \
-	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var; \
-	make && make install; \
-	cd - && mkdir -p /etc/keepalived; \
-	rm -rf /opt/keepalived.tar.gz; \
-	rm -rf /opt/keepalived; \
+	curl -o /usr/src/keepalived.tar.gz -SL "$KEEPALIVED_URL"; \
+	echo "$KEEPALIVED_MD5 /usr/src/keepalived.tar.gz" | md5sum -c; \
+	mkdir -p /usr/src/keepalived; \
+	tar -xzf /usr/src/keepalived.tar.gz -C /usr/src/keepalived --strip-components=1; \
+	cd /usr/src/keepalived; \
+	./configure --enable-snmp-rfc --enable-snmp --enable-snmp-vrrp --enable-dbus --enable-dbus-create-instance --enable-asserts --enable-bfd --enable-regex --enable-regex-timers --enable-timer-check --enable-log-file --prefix=/usr/local --sysconfdir=/etc --localstatedir=/var;\
+	\
+	make && make install;\
+	cd - && mkdir -p /etc/keepalived;\
+	rm -rf /usr/src/keepalived.tar.gz; \
+	rm -rf /usr/src/keepalived; \
 	rm -rf /var/lib/apt/lists/* \
 	; \
 	apt-mark auto '.*' > /dev/null; \
@@ -48,8 +58,6 @@ RUN set -eux; \
 		| xargs -r apt-mark manual \
 	; \
 	apt-mark hold \
- 	libnl-3-200 \
-	libnl-genl-3-200 \
 	curl \
 	; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
