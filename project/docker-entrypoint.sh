@@ -9,9 +9,9 @@ KEEPALIVED_CONF=${KEEPALIVED_CONF:-/etc/keepalived/keepalived.conf}
 KEEPALIVED_VAR_RUN=${KEEPALIVED_VAR_RUN:-/var/run/keepalived}
 
 if [[ ${KEEPALIVED_DEBUG,,} == 'true' ]]; then
-  kd_cmd="/usr/sbin/keepalived -n -l -D -f $KEEPALIVED_CONF"
+  kd_cmd="/usr/local/sbin/keepalived -n -l -D -f $KEEPALIVED_CONF"
 else
-  kd_cmd="/usr/sbin/keepalived -n -l -f $KEEPALIVED_CONF"
+  kd_cmd="/usr/local/sbin/keepalived -n -l -f $KEEPALIVED_CONF"
 fi
 
 KEEPALIVED_CMD=${KEEPALIVED_CMD:-"$kd_cmd"}
